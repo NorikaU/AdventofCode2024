@@ -16,8 +16,7 @@ def read_from_file(filename):
     print(f"Error: File '{filename}' not found.")
     return None
 
-# Example usage:
-filename = 'inputd1.txt'  # Replace with your actual file name
+filename = 'Day1/inputd1.txt'
 file_content = read_from_file(filename)
 list1,list2 = [],[]
 
