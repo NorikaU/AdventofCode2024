@@ -7,30 +7,41 @@ def read_from_file(filename):
     print(f"Error: File '{filename}' not found.")
     return None
 
-def isSafe(report):
-    report = [int(i) for i in line.split()]
-    if sorted(report) != report and sorted(report, reverse=True) != report:
-        return False
-        
-    for j in range(1,len(report)):
-        if abs(report[j]-report[j-1])>3:
-            return False
-        if report[j] == report[j-1]:
-            return False
-    return True
-  
-filename = 'Day2/input.txt'  
+def findIndex(line,s):
+    try:
+        return line.index(s)
+    except ValueError:
+        return -1
+
+filename = 'Day3/input.txt'  
 file_content = read_from_file(filename)  
 
-safe_lines = 0
+sum = 0
 if file_content:
     for line in file_content:
-        safe = True
-        report = [int(i) for i in line.split()]
-        
-        if isSafe(report):
-            safe_lines += 1
-        else:
-            print(report)
-            
-print(safe_lines)
+        while findIndex(line,"mul(") != -1:
+            i = line.index("mul(")
+            line = line[:i] + line[i+4:]
+            num1,num2 = "",""
+            valid = True
+            while line[i] != ',':
+                if line[i].isdigit():
+                    num1 += line[i]
+                else:
+                    valid = False
+                    break
+                i+=1
+            if not valid:
+                continue
+            i+=1
+            while line[i] != ')':
+                if line[i].isdigit():
+                    num2 += line[i]
+                else:
+                    print(line[i])
+                    valid = False
+                    break
+                i+=1
+            if line[i] == ')':
+                sum += int(num1)*int(num2)
+print(sum)
